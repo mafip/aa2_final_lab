@@ -1,0 +1,19 @@
+---
+- name: Play to setup frontend servers
+  hosts: frontends
+  become: true
+
+  tasks:
+  - name: Setup firewall
+    include_role:
+      name: firewall
+    vars:
+      firewall_services:
+      - http
+      firewall_tcp_ports:
+      - 5000
+
+  - name: Setup frontend servers
+    include_role:
+      name: haproxy
+...

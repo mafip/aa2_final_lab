@@ -1,0 +1,11 @@
+---
+# tasks file for dns
+
+- name: Insert DNS IP
+  command: >-
+    nmcli connection modify "System eth0"
+    ipv4.ignore-auto-dns yes
+    ipv4.dns {{ nameserver.0 }}
+    +ipv4.dns {{ nameserver.1 }}
+    +ipv4.dns {{ nameserver.2 }} 
+  notify: Restart NetworkManager

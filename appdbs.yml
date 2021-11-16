@@ -1,0 +1,17 @@
+---
+
+- name: Play to setup appdb server
+  hosts: appdbs
+  become: true
+
+  tasks:
+  - name: Setup firewall
+    include_role:
+      name: firewall
+    vars:
+      firewall_services:
+      - postgresql
+
+  - name: Setup postgresql server
+    include_role:
+      name: postgres

@@ -1,0 +1,54 @@
+---
+- name: Play to setup db server
+  hosts: appdbs
+  become: true
+
+  tasks:
+  - name: Setup firewall
+    include_role:
+      name: firewall
+    vars:
+      firewall_services:
+      - postgresql
+
+  - name: Setup db server
+    include_role:
+      name: postgres
+
+- name: Play to setup app servers
+  hosts: apps
+  become: true
+
+  tasks:
+  - name: Setup firewall
+    include_role:
+      name: firewall
+    vars:
+      firewall_services:
+      - http
+      firewall_tcp_ports:
+      - 8080
+
+  - name: Setup app servers
+    include_role:
+      name: app
+
+- name: Play to setup frontend servers
+  hosts: frontends
+  become: true
+
+  tasks:
+  - name: Setup firewall
+    include_role:
+      name: firewall
+    vars:
+      firewall_services:
+      - http
+
+  - name: Setup frontend server
+    include_role:
+      name: frontend
+
+- name: Play to exec E2E smoke test
+  import_playbook: smoke-test.yml
+...

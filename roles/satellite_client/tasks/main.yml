@@ -1,0 +1,16 @@
+---
+# tasks file for satellite_client
+#
+
+- name: install katello-ca-consumer package
+  yum:
+    name: http://satellite.example.com/pub/katello-ca-consumer-latest.noarch.rpm
+    disable_gpg_check: true
+    state: present
+
+- name: register system and attach subs
+  redhat_subscription:
+    state:   present
+    username: "{{ username }}"
+    password: "{{ password }}"
+    auto_attach: true

@@ -1,0 +1,16 @@
+---
+- name: Play to configure servers
+  hosts: frontends,appdbs,apps
+  gather_facts: true
+
+  tasks:
+  - name: Configure DNS IP
+    include_role:
+      name: dns
+
+  - name: Flush handlers
+    meta: flush_handlers
+
+  - name: Install Satellite client and add RHEL subscription
+    include_role:
+      name: satellite_client
